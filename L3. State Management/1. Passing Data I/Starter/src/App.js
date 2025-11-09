@@ -94,13 +94,46 @@ const movies = {
 };
 
 const App = () => {
+  
   return (
+    
     <div>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="App-title">ReactND - Coding Practice</h1>
       </header>
       <h2>Favorite Movies</h2>
+      <ul>{profiles.map((profile)=>(
+        <li key={profile.id}>
+            Le film préféré de {users[profile.userID].name} est {movies[profile.favoriteMovieID].name}.
+        </li>
+      ))}
+      </ul>
+       <h2>Liste utilisateurs qui ont ajouté les films à leur favori</h2>
+       <ul>
+        {Object.values(movies).map((movie)=>(
+          <div key={movie.id}>
+            <h3 key={movie.name}>Film: {movie.name}</h3>
+            
+          {
+            profiles.filter(profile=>movie.id === Number(profile.favoriteMovieID)).length > 0 ?
+            (<ul>
+            {
+              profiles.filter((profile)=>(movie.id === Number(profile.favoriteMovieID)))
+                .map((profile)=>(
+                    <li key={profile.id}>
+                      {users[profile.userID].name}
+                    </li>
+              ))
+            }
+            </ul>):
+            (
+              <p>Aucun utilisateur n'a ajouté ce film en favori</p>
+            )
+          }
+          </div>
+        ))}
+       </ul>
     </div>
   );
 };
